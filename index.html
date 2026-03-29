@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebrating Jim Powell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #1a3a7a;
+      --blue-light: #2b4fa3;
+      --blue-soft: #e8edf7;
+      --blue-muted: #6b82b8;
+      --cream: #faf9f7;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --border: #d8d4ce;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+      border-bottom: 1px solid var(--border);
+    }
+
+    header p.prelude {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: var(--blue);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    header .dates {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* ── Photos ── */
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: white;
+    }
+
+    .photos img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .photos img:last-child {
+      object-position: top;
+    }
+
+    @media (max-width: 640px) {
+      .photos {
+        grid-template-columns: 1fr 1fr;
+      }
+      .photos img {
+        height: 200px;
+        object-position: top;
+      }
+    }
+
+    /* ── Sections ── */
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 3.5rem 0;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.6rem;
+      color: var(--blue);
+      margin-bottom: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── Invitation section ── */
+    .invitation {
+      text-align: center;
+      background: var(--blue-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .invitation .container {
+      max-width: 600px;
+    }
+
+    .invitation .venues {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .invitation .venue img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin: 0.75rem 0;
+    }
+
+    @media (max-width: 480px) {
+      .invitation .venues {
+        grid-template-columns: 1fr;
+      }
+      .invitation .venue img {
+        height: 200px;
+      }
+    }
+
+    .invitation .greeting {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .invitation .details {
+      margin: 2rem 0;
+    }
+
+    .invitation .venue .event {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--blue);
+      margin-bottom: 0.25rem;
+    }
+
+    .invitation .venue a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .invitation .venue a:hover {
+      color: var(--blue-light);
+    }
+
+    .invitation .venue p {
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-light);
+    }
+
+    .invitation .signoff {
+      margin-top: 2rem;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* ── Life summary ── */
+    .life-summary {
+      background: var(--cream);
+    }
+
+    /* ── RSVP ── */
+    .rsvp {
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+
+    .rsvp .container {
+      max-width: 480px;
+    }
+
+    .rsvp h2 {
+      text-align: center;
+    }
+
+    .rsvp p.intro {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    input, textarea, select {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      padding: 0.6rem 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-bottom-color: var(--blue);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    button[type="submit"] {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--blue-light);
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--blue);
+    }
+
+    footer p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="prelude">Join us to celebrate</p>
+    <h1>Jim Powell</h1>
+    <p class="dates">1944 &ndash; 2025</p>
+  </header>
+
+  <div class="photos">
+    <img src="photos/jim-baby.jpg" alt="Jim as a baby">
+    <img src="photos/jim-millbrook-yearbook-portrait.jpg" alt="Jim's Millbrook yearbook portrait">
+    <img src="photos/jim-bachrach-portrait.jpg" alt="Jim, Bachrach portrait">
+    <img src="photos/jim-suit.jpg" alt="Jim in a suit">
+  </div>
+
+  <section class="invitation">
+    <div class="container">
+      <div class="venues">
+        <div class="venue">
+          <p class="event">A Service of Celebration</p>
+          <img src="photos/christ-and-holy-trinity.png" alt="Christ & Holy Trinity Church">
+          <p>Sunday, June 7, 2026 at 12:00 noon</p>
+          <p><a href="https://maps.app.goo.gl/kciodcQeeFRDg5eL6" target="_blank">Christ &amp; Holy Trinity Church</a></p>
+          <p>75 Church Lane, Westport, CT 06880</p>
+        </div>
+
+        <div class="venue">
+          <p class="event">Reception to Follow</p>
+          <img src="photos/home.jpg" alt="Our home">
+          <p>At our home &mdash; please see your invitation for the address.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="life-summary">
+    <div class="container">
+      <h2>Jim's Life</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras vehicula, mi eget laoreet volutpat, eros lectus malesuada risus, at auctor nisi elit sed dolor. Praesent vel eros at nulla interdum facilisis.</p>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+      <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.</p>
+    </div>
+  </section>
+
+  <section class="rsvp" id="rsvp">
+    <div class="container">
+      <p class="intro">We would love to have you join us to celebrate Jim's life. Please let us know if you can make it.</p>
+
+      <!-- Replace YOUR_BASIN_ENDPOINT below with your Basin form endpoint -->
+      <form action="https://usebasin.com/f/0b502ffcd60d" method="POST">
+        <label>
+          Your name
+          <input type="text" name="name" required>
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" required>
+        </label>
+
+        <label>
+          Number of guests
+          <select name="guests" required>
+            <option value="" disabled selected>Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5+</option>
+          </select>
+        </label>
+
+        <label>
+          Note <span style="text-transform: none; letter-spacing: normal; font-weight: 300;">(optional)</span>
+          <textarea name="note" placeholder="Share a memory or a message with Marisa, Justin, and Kristin"></textarea>
+        </label>
+
+        <button type="submit">Send RSVP</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>With love, Marisa, Justin, and Kristin</p>
+  </footer>
+
+</body>
+</html>
