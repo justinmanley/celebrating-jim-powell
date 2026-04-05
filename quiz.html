@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Jim Powell Book Quiz</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #1a3a7a;
+      --blue-light: #2b4fa3;
+      --blue-soft: #e8edf7;
+      --blue-muted: #6b82b8;
+      --cream: #faf9f7;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --border: #d8d4ce;
+      --green: #2d6a4f;
+      --green-soft: #d8f3dc;
+      --red: #9b2226;
+      --red-soft: #fde2e4;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+    }
+
+    /* ── Screen management ── */
+    .screen {
+      display: none;
+      min-height: 100dvh;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Intro screen ── */
+    .intro {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+    }
+
+    .intro h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--blue);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .intro p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      max-width: 440px;
+      margin: 0 auto 2rem;
+    }
+
+    .intro .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2.5rem;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--blue-light);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+
+    .btn-outline:hover {
+      background: var(--blue-soft);
+    }
+
+    /* ── Question screen ── */
+    .question-screen {
+      background: var(--cream);
+    }
+
+    .question-header {
+      text-align: center;
+      padding: 1.25rem 1.5rem 0.75rem;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .question-counter {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .question-prompt {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.3rem;
+      color: var(--blue);
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--blue);
+      transition: width 0.4s ease;
+    }
+
+    /* ── Book cover ── */
+    .cover-area {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.25rem 1.5rem;
+      min-height: 0;
+    }
+
+    .cover-wrapper {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    .cover-wrapper img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ── Answer options ── */
+    .options-area {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .options {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      line-height: 1.5;
+      padding: 0.75rem 1rem;
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .option-btn:hover {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .option-btn .option-letter {
+      font-weight: 500;
+      color: var(--blue);
+      margin-right: 0.5rem;
+    }
+
+    /* ── Answer screen ── */
+    .answer-screen {
+      background: var(--cream);
+    }
+
+    .answer-banner {
+      text-align: center;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .answer-banner.correct {
+      background: var(--green-soft);
+    }
+
+    .answer-banner.incorrect {
+      background: var(--red-soft);
+    }
+
+    .answer-banner .verdict {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.4rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .answer-banner.correct .verdict {
+      color: var(--green);
+    }
+
+    .answer-banner.incorrect .verdict {
+      color: var(--red);
+    }
+
+    .answer-banner .answer-detail {
+      font-size: 0.88rem;
+      color: var(--text-light);
+    }
+
+    .answer-cover-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.25rem 1.5rem;
+      min-height: 0;
+    }
+
+    .answer-cover-wrapper {
+      max-width: 280px;
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      margin-bottom: 1.25rem;
+    }
+
+    .answer-cover-wrapper img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .answer-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .answer-year {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .next-btn-area {
+      padding: 0 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    /* ── Results screen ── */
+    .results-screen {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+    }
+
+    .results-score {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(3rem, 8vw, 5rem);
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .results-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    .results-message {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--text);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.5;
+    }
+
+    .results-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    /* ── Review screen ── */
+    .review-screen {
+      background: var(--cream);
+    }
+
+    .review-header {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .review-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.6rem;
+      color: var(--blue);
+    }
+
+    .review-list {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 2rem;
+    }
+
+    .review-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .review-item:last-child {
+      border-bottom: none;
+    }
+
+    .review-thumb {
+      width: 60px;
+      flex-shrink: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .review-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .review-info {
+      flex: 1;
+    }
+
+    .review-book-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: var(--blue);
+      margin-bottom: 0.2rem;
+    }
+
+    .review-answer {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+    }
+
+    .review-answer.correct {
+      color: var(--green);
+    }
+
+    .review-answer.incorrect {
+      color: var(--red);
+    }
+
+    .review-correct-answer {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .review-back {
+      text-align: center;
+      padding: 0 1.5rem 2.5rem;
+    }
+
+    /* ── Mobile optimizations ── */
+    @media (max-width: 640px) {
+      .cover-area {
+        padding: 1rem;
+      }
+
+      .cover-wrapper {
+        max-width: 260px;
+      }
+
+      .options-area {
+        padding: 0 1rem 1rem;
+      }
+
+      .option-btn {
+        font-size: 0.84rem;
+        padding: 0.65rem 0.85rem;
+      }
+
+      .answer-cover-wrapper {
+        max-width: 240px;
+      }
+
+      .question-header {
+        padding: 1rem 1rem 0.5rem;
+      }
+
+      .question-prompt {
+        font-size: 1.15rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .cover-wrapper {
+        max-width: 220px;
+      }
+
+      .option-btn {
+        font-size: 0.8rem;
+        padding: 0.55rem 0.75rem;
+      }
+
+      .answer-cover-wrapper {
+        max-width: 200px;
+      }
+    }
+
+    /* tall phones: give more space to the cover */
+    @media (max-width: 640px) and (min-height: 700px) {
+      .cover-wrapper {
+        max-width: 280px;
+      }
+    }
+
+    /* ── Desktop: wider layout ── */
+    @media (min-width: 800px) {
+      .cover-wrapper {
+        max-width: 320px;
+      }
+
+      .answer-cover-wrapper {
+        max-width: 300px;
+      }
+
+      .options {
+        max-width: 560px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Intro ── -->
+  <div id="intro" class="screen intro active">
+    <p class="subtitle">Celebrating Jim Powell</p>
+    <h1>The Jim Powell<br>Book Quiz</h1>
+    <p>Jim wrote eight books over the course of his career. How well do you know them? We&rsquo;ve hidden the titles&mdash;can you figure out what each book is about from the cover alone?</p>
+    <button class="btn" onclick="startQuiz()">Take the Quiz</button>
+  </div>
+
+  <!-- ── Question template (reused) ── -->
+  <div id="question" class="screen question-screen">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="question-header">
+      <p class="question-counter" id="q-counter"></p>
+      <p class="question-prompt">What is this book about?</p>
+    </div>
+    <div class="cover-area">
+      <div class="cover-wrapper" id="q-cover"></div>
+    </div>
+    <div class="options-area">
+      <div class="options" id="q-options"></div>
+    </div>
+  </div>
+
+  <!-- ── Answer template (reused) ── -->
+  <div id="answer" class="screen answer-screen">
+    <div class="progress-bar"><div class="progress-fill" id="a-progress"></div></div>
+    <div class="answer-banner" id="a-banner">
+      <p class="verdict" id="a-verdict"></p>
+      <p class="answer-detail" id="a-detail"></p>
+    </div>
+    <div class="answer-cover-area">
+      <div class="answer-cover-wrapper">
+        <img id="a-cover" src="" alt="">
+      </div>
+      <p class="answer-title" id="a-title"></p>
+      <p class="answer-year" id="a-year"></p>
+    </div>
+    <div class="next-btn-area">
+      <button class="btn" id="a-next" onclick="nextStep()"></button>
+    </div>
+  </div>
+
+  <!-- ── Results ── -->
+  <div id="results" class="screen results-screen">
+    <p class="results-label">Your Score</p>
+    <p class="results-score" id="r-score"></p>
+    <p class="results-message" id="r-message"></p>
+    <div class="results-buttons">
+      <button class="btn" onclick="showReview()">View Your Answers</button>
+      <a class="btn btn-outline" href="index.html">Back to Celebrating Jim</a>
+    </div>
+  </div>
+
+  <!-- ── Review ── -->
+  <div id="review" class="screen review-screen">
+    <div class="review-header">
+      <h2>Your Answers</h2>
+    </div>
+    <div class="review-list" id="review-list"></div>
+    <div class="review-back">
+      <a class="btn" href="index.html">Back to Celebrating Jim</a>
+    </div>
+  </div>
+
+  <script>
+    var questions = [
+      {
+        redacted: "covers/redacted/fdrs-folly.jpg",
+        unredacted: "covers/unredacted/fdrs-folly.jpg",
+        title: "FDR\u2019s Folly",
+        subtitle: "How Roosevelt and His New Deal Prolonged the Great Depression",
+        year: 2003,
+        correct: 1,
+        options: [
+          "Franklin Roosevelt\u2019s failed attempt to pack the Supreme Court",
+          "How Roosevelt\u2019s New Deal policies prolonged the Great Depression",
+          "FDR\u2019s disastrous early military strategy in World War II"
+        ],
+        correctMsg: "You nailed it! Jim argued that FDR\u2019s New Deal actually deepened and extended the Depression.",
+        incorrectMsg: "Not quite! Jim made the case that Roosevelt\u2019s New Deal policies actually prolonged the Great Depression."
+      },
+      {
+        redacted: "covers/redacted/gnomes-of-tokyo.jpg",
+        unredacted: "covers/unredacted/gnomes-of-tokyo.jpg",
+        title: "The Gnomes of Tokyo",
+        subtitle: "Japanese Financial Power and Its Impact on Our Future",
+        year: 1988,
+        correct: 1,
+        options: [
+          "A cultural history of Japanese folklore and its influence on the West",
+          "How Japanese financiers conquered Western markets at the height of Japan\u2019s economic power",
+          "Japan\u2019s postwar economic miracle and the engineers behind it"
+        ],
+        correctMsg: "Exactly right! Jim chronicled the rise of Japan\u2019s financial titans in the late 1980s.",
+        incorrectMsg: "Close, but no\u2014Jim wrote about Japan\u2019s powerful financiers and their impact on Western markets."
+      },
+      {
+        redacted: "covers/redacted/triumph-of-liberty.jpg",
+        unredacted: "covers/unredacted/triumph-of-liberty.jpg",
+        title: "The Triumph of Liberty",
+        subtitle: "A 2,000-Year History Told Through the Lives of Freedom\u2019s Greatest Champions",
+        year: 2000,
+        correct: 2,
+        options: [
+          "How the American Revolution inspired democratic movements worldwide",
+          "The rise of free-market capitalism from Adam Smith to the present day",
+          "A 2,000-year history told through the lives of freedom\u2019s greatest champions"
+        ],
+        correctMsg: "You got it! Jim profiled 65 heroes and heroines of liberty across two millennia.",
+        incorrectMsg: "Good guess, but Jim\u2019s book was a 2,000-year history told through the lives of 65 champions of freedom."
+      },
+      {
+        redacted: "covers/redacted/investors-guide-art.jpg",
+        unredacted: "covers/unredacted/investors-guide-art.jpg",
+        title: "The Investor\u2019s Guide to Undervalued Art & Antiques",
+        subtitle: "A Guide to Elegant, Affordable Collectibles",
+        year: 1983,
+        correct: 0,
+        options: [
+          "How to identify and invest in undervalued art and antiques",
+          "The hidden world of art forgery and authentication scandals",
+          "A history of the world\u2019s most expensive auction sales"
+        ],
+        correctMsg: "Right! This was Jim\u2019s very first book\u2014a practical guide for savvy art and antiques investors.",
+        incorrectMsg: "Not quite\u2014this was actually Jim\u2019s first book, a practical guide for investing in undervalued art and antiques."
+      },
+      {
+        redacted: "covers/redacted/bully-boy.jpg",
+        unredacted: "covers/unredacted/bully-boy.jpg",
+        title: "Bully Boy",
+        subtitle: "The Truth About Theodore Roosevelt\u2019s Legacy",
+        year: 2006,
+        correct: 1,
+        options: [
+          "The rise and fall of American political machines in the Gilded Age",
+          "How Theodore Roosevelt\u2019s presidency had lasting negative consequences",
+          "The story of how Andrew Jackson transformed American populism"
+        ],
+        correctMsg: "Spot on! Jim challenged the conventional image of TR as a great progressive hero.",
+        incorrectMsg: "Nice try! Jim actually wrote a critical reassessment of Theodore Roosevelt\u2019s legacy, arguing his policies did lasting harm."
+      },
+      {
+        redacted: "covers/redacted/greatest-emancipations.jpg",
+        unredacted: "covers/unredacted/greatest-emancipations.jpg",
+        title: "Greatest Emancipations",
+        subtitle: "How the West Abolished Slavery",
+        year: 2008,
+        correct: 0,
+        options: [
+          "How Western nations abolished slavery within a single century",
+          "The women\u2019s suffrage movement across Europe and America",
+          "The liberation of colonial nations in Africa and Asia after World War II"
+        ],
+        correctMsg: "Yes! Jim traced how over seven million enslaved people were freed across five regions.",
+        incorrectMsg: "Not this time\u2014Jim\u2019s book was about how the West abolished slavery, freeing over seven million people."
+      },
+      {
+        redacted: "covers/redacted/wilsons-war.jpg",
+        unredacted: "covers/unredacted/wilsons-war.jpg",
+        title: "Wilson\u2019s War",
+        subtitle: "How Woodrow Wilson\u2019s Great Blunder Led to Hitler, Lenin, Stalin & WWII",
+        year: 2005,
+        correct: 2,
+        options: [
+          "Woodrow Wilson\u2019s bitter battle with Congress over the League of Nations",
+          "How American isolationism in the 1930s enabled the rise of European fascism",
+          "How Wilson\u2019s decision to enter World War I led to Hitler, Lenin, and Stalin"
+        ],
+        correctMsg: "Exactly! Jim argued that entering WWI was Wilson\u2019s great blunder, paving the way for tyrants.",
+        incorrectMsg: "Close, but Jim\u2019s argument was that Wilson\u2019s decision to enter WWI was the catastrophic blunder that led to Hitler, Lenin, and Stalin."
+      },
+      {
+        redacted: "covers/redacted/risk-ruin-riches.jpg",
+        unredacted: "covers/unredacted/risk-ruin-riches.jpg",
+        title: "Risk, Ruin & Riches",
+        subtitle: "Inside the World of Big-Time Real Estate",
+        year: 1986,
+        correct: 2,
+        options: [
+          "The spectacular rise and fall of Wall Street\u2019s biggest bond traders",
+          "How Las Vegas casino moguls built an entertainment empire from the desert",
+          "The high-stakes world of America\u2019s biggest real estate developments"
+        ],
+        correctMsg: "You got it! Jim told the stories behind the skyscrapers, malls, and megaprojects that reshaped American cities.",
+        incorrectMsg: "Good guess, but Jim was writing about the high-stakes world of big-time real estate\u2014skyscrapers, malls, and the moguls who built them."
+      }
+    ];
+
+    var currentQuestion = 0;
+    var score = 0;
+    var answers = []; // {chosen, correct, isCorrect}
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answers = [];
+      showQuestion();
+    }
+
+    function showQuestion() {
+      var q = questions[currentQuestion];
+      var pct = (currentQuestion / questions.length) * 100;
+
+      document.getElementById('progress').style.width = pct + '%';
+      document.getElementById('q-counter').textContent = 'Question ' + (currentQuestion + 1) + ' of ' + questions.length;
+
+      // Build cover with redacted image
+      var coverEl = document.getElementById('q-cover');
+      coverEl.innerHTML = '<img src="' + q.redacted + '" alt="Mystery book cover">';
+
+      // Build options
+      var letters = ['A', 'B', 'C'];
+      var optionsEl = document.getElementById('q-options');
+      optionsEl.innerHTML = '';
+      q.options.forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = '<span class="option-letter">' + letters[i] + '.</span> ' + opt;
+        btn.onclick = function() { selectAnswer(i); };
+        optionsEl.appendChild(btn);
+      });
+
+      showScreen('question');
+    }
+
+    function selectAnswer(chosen) {
+      var q = questions[currentQuestion];
+      var isCorrect = chosen === q.correct;
+      if (isCorrect) score++;
+      answers.push({ chosen: chosen, correct: q.correct, isCorrect: isCorrect });
+
+      // Set up answer screen
+      var pct = ((currentQuestion + 1) / questions.length) * 100;
+      document.getElementById('a-progress').style.width = pct + '%';
+
+      var banner = document.getElementById('a-banner');
+      banner.className = 'answer-banner ' + (isCorrect ? 'correct' : 'incorrect');
+      document.getElementById('a-verdict').textContent = isCorrect ? 'Correct!' : 'Not quite!';
+      document.getElementById('a-detail').textContent = isCorrect ? q.correctMsg : q.incorrectMsg;
+
+      document.getElementById('a-cover').src = q.unredacted;
+      document.getElementById('a-cover').alt = q.title;
+      document.getElementById('a-title').textContent = q.title + ': ' + q.subtitle;
+      document.getElementById('a-year').textContent = q.year;
+
+      var nextBtn = document.getElementById('a-next');
+      if (currentQuestion < questions.length - 1) {
+        nextBtn.textContent = 'Next Question';
+      } else {
+        nextBtn.textContent = 'See Your Results';
+      }
+
+      showScreen('answer');
+    }
+
+    function nextStep() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('r-score').textContent = score + ' / ' + questions.length;
+
+      var messages = [
+        "Don\u2019t worry\u2014Jim would be happy just knowing you\u2019re curious about his books!",
+        "A respectable start! Jim always said that learning was a lifelong journey.",
+        "Not bad at all! You clearly know a thing or two about Jim\u2019s work.",
+        "Solid work! Jim would be impressed by your knowledge.",
+        "Very well done! You\u2019re clearly a student of Jim\u2019s writing.",
+        "Impressive! You know Jim\u2019s books almost as well as his editor did.",
+        "Remarkable! Jim would be proud to count you among his readers.",
+        "Outstanding! You must have a well-worn copy of every title on your shelf.",
+        "A perfect score! You are a true Jim Powell scholar. He would be absolutely delighted."
+      ];
+
+      document.getElementById('r-message').textContent = messages[score];
+
+      // Submit results to Basin
+      submitResults();
+
+      showScreen('results');
+    }
+
+    function submitResults() {
+      var data = new FormData();
+      data.append('score', score + ' / ' + questions.length);
+      questions.forEach(function(q, i) {
+        var a = answers[i];
+        data.append('q' + (i + 1) + '_book', q.title);
+        data.append('q' + (i + 1) + '_answer', q.options[a.chosen]);
+        data.append('q' + (i + 1) + '_correct', a.isCorrect ? 'Yes' : 'No');
+      });
+
+      // Submit silently in the background
+      fetch('https://usebasin.com/f/QUIZ_FORM_ENDPOINT', {
+        method: 'POST',
+        body: data
+      }).catch(function() { /* silent fail */ });
+    }
+
+    function showReview() {
+      var list = document.getElementById('review-list');
+      list.innerHTML = '';
+
+      questions.forEach(function(q, i) {
+        var a = answers[i];
+        var item = document.createElement('div');
+        item.className = 'review-item';
+
+        var correctClass = a.isCorrect ? 'correct' : 'incorrect';
+        var yourAnswer = q.options[a.chosen];
+        var correctAnswer = q.options[a.correct];
+
+        var html = '<div class="review-thumb"><img src="' + q.unredacted + '" alt="' + q.title + '"></div>';
+        html += '<div class="review-info">';
+        html += '<p class="review-book-title">' + q.title + ' (' + q.year + ')</p>';
+        html += '<p class="review-answer ' + correctClass + '">' + (a.isCorrect ? '\u2713 ' : '\u2717 ') + yourAnswer + '</p>';
+        if (!a.isCorrect) {
+          html += '<p class="review-correct-answer">Correct answer: ' + correctAnswer + '</p>';
+        }
+        html += '</div>';
+
+        item.innerHTML = html;
+        list.appendChild(item);
+      });
+
+      showScreen('review');
+    }
+  </script>
+
+</body>
+</html>
