@@ -1,0 +1,230 @@
+/* Shared styles for Jim Powell photo gallery pages */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #1a3a7a;
+  --blue-light: #2b4fa3;
+  --blue-soft: #e8edf7;
+  --blue-muted: #6b82b8;
+  --cream: #faf9f7;
+  --text: #2c2c2c;
+  --text-light: #5a5a5a;
+  --border: #d8d4ce;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--blue);
+}
+
+a:hover {
+  color: var(--blue-light);
+}
+
+/* ── Header ── */
+.page-header {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  background: white;
+  border-top: 3px solid var(--blue);
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header .prelude {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--blue-muted);
+  margin-bottom: 0.75rem;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+  color: var(--blue);
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Lead-in paragraph (sits in the body, below the header) ── */
+.lead-in {
+  max-width: 720px;
+  margin: 2.25rem auto 0;
+  padding: 0 1.5rem;
+  text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--text-light);
+}
+
+@media (max-width: 640px) {
+  .lead-in {
+    font-size: 1.2rem;
+    margin-top: 1.75rem;
+  }
+}
+
+/* ── Back link ── */
+.back-link {
+  display: block;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--blue-light);
+}
+
+.back-link.bottom {
+  text-align: center;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Photos overview grid (photos.html) ── */
+.gallery-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+
+.gallery-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(26, 58, 122, 0.12);
+}
+
+.gallery-card .cover {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: var(--blue-soft);
+}
+
+.gallery-card .cover.cover--top {
+  object-position: top;
+}
+
+.gallery-card .label {
+  padding: 1.25rem 1.5rem 1.4rem;
+  text-align: center;
+}
+
+.gallery-card h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: var(--blue);
+  margin-bottom: 0.25rem;
+}
+
+.gallery-card .count {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue-muted);
+}
+
+/* ── Individual gallery (stacked photos) ── */
+.photo-stack {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.photo-stack figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photo-stack img {
+  max-width: 100%;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.photo-stack figcaption {
+  margin-top: 1rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  text-align: center;
+  max-width: 700px;
+}
+
+/* ── Footer ── */
+footer.site-footer {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: var(--blue);
+}
+
+footer.site-footer p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 640px) {
+  .gallery-grid {
+    padding: 2rem 1rem;
+    gap: 1.75rem;
+  }
+  .photo-stack {
+    padding: 1.5rem 0 1rem;
+    gap: 2.5rem;
+  }
+  .photo-stack figcaption {
+    padding: 0 1rem;
+  }
+}
