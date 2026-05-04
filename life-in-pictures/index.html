@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Life in Pictures &middot; Celebrating Jim Powell</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #1a3a7a;
+      --blue-light: #2b4fa3;
+      --blue-soft: #e8edf7;
+      --blue-muted: #6b82b8;
+      --cream: #faf9f7;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --border: #d8d4ce;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .prelude {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: var(--blue);
+      line-height: 1.15;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      display: block;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--blue);
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      background: white;
+    }
+
+    .back-link:hover {
+      color: var(--blue-light);
+    }
+
+    .back-link.bottom {
+      background: var(--cream);
+      padding: 0 1.5rem 2rem;
+    }
+
+    /* ── Timeline ── */
+    .timeline-intro {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .timeline-intro p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.15rem;
+    }
+
+    .timeline {
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+      padding: 2rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: var(--line-top, 0);
+      bottom: var(--line-bottom, 0);
+      left: 50%;
+      width: 3px;
+      background: var(--blue);
+      opacity: 0.85;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .lane {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .left-lane {
+      align-items: flex-end;
+      padding-right: 3rem;
+    }
+
+    .right-lane {
+      align-items: flex-start;
+      padding-left: 3rem;
+      /* Stagger the right column down so the timeline visibly begins on
+         the left. Roughly half the height of the first left photo. */
+      padding-top: 230px;
+    }
+
+    .station {
+      position: relative;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .left-lane .station {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .right-lane .station {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .station .year {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.4rem;
+      color: var(--blue);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .station .photo-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .station .photo {
+      display: block;
+      max-width: 480px;
+      max-height: 460px;
+      width: auto;
+      height: auto;
+    }
+
+    .station .caption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 480px;
+    }
+
+    /* Each station's "stop" — a small horizontal nub anchored on the
+       central line, extending toward its photo. Like the tick used for
+       non-interchange stations on the London Tube map. */
+    .station .dot {
+      position: absolute;
+      top: 50%;
+      height: 3px;
+      width: 14px;
+      background: var(--blue);
+      border-radius: 1.5px;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .left-lane .dot {
+      /* Inner (right) edge sits on the central line; extends left toward photo */
+      right: -3rem;
+    }
+
+    .right-lane .dot {
+      /* Inner (left) edge sits on the central line; extends right toward photo */
+      left: -3rem;
+    }
+
+    /* Custom time gaps. The negative margin cancels the lane's flex gap that
+       would otherwise be inserted before the spacer, so the spacer's height
+       equals the exact extra vertical space added. */
+    .lane > .gap {
+      margin-top: -3rem;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 720px) {
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0 2rem;
+      }
+
+      .timeline::before {
+        left: 32px;
+        transform: none;
+      }
+
+      /* Flatten lanes — children become direct flex children, ordered chronologically */
+      .lane,
+      .left-lane,
+      .right-lane {
+        display: contents;
+      }
+
+      .station,
+      .left-lane .station,
+      .right-lane .station {
+        max-width: none;
+        align-items: flex-start;
+        text-align: left;
+        padding: 1.25rem 1.5rem 1.25rem 64px;
+      }
+
+      .station .year {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .station .photo {
+        max-width: 100%;
+        max-height: 380px;
+      }
+
+      .station .caption {
+        max-width: 100%;
+      }
+
+      /* Anchor dot to station, not photo-wrap, so it lands on the line */
+      .station .photo-wrap {
+        position: static;
+      }
+
+      /* Line is on the left; nub anchored there, extending right toward photo. */
+      .station .dot,
+      .left-lane .dot,
+      .right-lane .dot {
+        left: 32px;
+        top: 2rem;
+        right: auto;
+        transform: translateY(-50%);
+        width: 12px;
+        height: 3px;
+      }
+
+      /* Both lane spacers would stack consecutively in the flattened mobile
+         flow — hide the secondary copy so the gap appears once. */
+      .gap--mobile-hide {
+        display: none;
+      }
+
+      .lane > .gap {
+        margin-top: 0;
+      }
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--blue);
+    }
+
+    .site-footer p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <p class="prelude">1944 &ndash; 2025</p>
+    <h1>A Life in Pictures</h1>
+  </header>
+
+  <a class="back-link" href="/">&lsaquo; Back to home</a>
+
+  <div class="timeline-intro">
+    <p>A journey through Jim&rsquo;s life, from his earliest days in Oyster Bay to his later years in Westport.</p>
+  </div>
+
+  <main class="timeline" id="timeline">
+    <!-- Stations are rendered by JS below -->
+  </main>
+
+  <a class="back-link bottom" href="/">&lsaquo; Back to home</a>
+
+  <footer class="site-footer">
+    <p>With love, Marisa, Justin, and Kristin</p>
+  </footer>
+
+  <script>
+    // ── Timeline data ────────────────────────────────────────────────
+    // Each station: { src, w, h, year, caption, side }
+    //   side: 'left' or 'right' — which side of the timeline the photo
+    //   sits on. The line itself runs straight down the middle.
+    //   w / h: pixel dimensions of the source image, used to reserve
+    //   layout space before the image loads (prevents layout shift).
+    const STATIONS = [
+      {
+        src: '/photos/life_in_pictures/Img922, JP, earliest photo.jpg',
+        w: 2631, h: 3900,
+        year: 'c. 1944',
+        caption: 'Jim was born in Newport News, Virginia, where his father served in the Navy.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/Img923, FCP & MSP holding JP.jpg',
+        w: 2187, h: 3408,
+        year: 'c. 1945',
+        caption: 'With his parents Frank and Madeline.',
+        side: 'right',
+      },
+      {
+        src: '/photos/life_in_pictures/Img930, FCP & JP, Nantucket, c. 1950.jpg',
+        w: 2613, h: 1889,
+        year: 'c. 1950',
+        caption: 'A family summer trip to Nantucket, pictured here with his father.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/Img955, JP & FCP w bicycles, Nantucket, c. 1950.jpg',
+        w: 3159, h: 2595,
+        year: 'c. 1950',
+        caption: 'Nantucket by bicycle.',
+        side: 'right',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg995, JP with Smokey.jpg',
+        w: 2783, h: 3583,
+        year: 'Childhood',
+        caption: 'With Smokey, his cat in Oyster Bay.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg1120, FCP, MSP & JP, while still at Millbrook.jpg',
+        w: 3660, h: 2230,
+        year: 'Millbrook years',
+        caption: 'A family photo taken during one of Jim\'s visits home while he was boarding at Millbrook. Jim has changed his hair to a preppy side part.',
+        side: 'right',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg1080, JP during hockey practice at Millbrook, c. 1959.jpg',
+        w: 1746, h: 1728,
+        year: 'c. 1959',
+        caption: 'Jim playing ice hockey at Millbrook School.',
+        side: 'left',
+      },
+      {
+        gap: { right: '15rem' }
+      },
+      {
+        src: '/photos/life_in_pictures/LMG1160, JP c. early 1970s.jpg',
+        w: 2177, h: 3360,
+        year: 'Early 1970s',
+        caption: 'True to form, Jim has good taste in eyeglasses and an array of different-colored pens at the ready.',
+        side: 'right',
+      },
+      {
+        gap: '5rem'
+      },
+      {
+        src: '/covers/unredacted/investors-guide-art.jpg',
+        w: 325, h: 500,
+        year: '1983',
+        caption: 'Jim publishes his first book: a guide to investing in the art market.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg1290.jpg',
+        w: 1622, h: 2073,
+        year: '1980s',
+        caption: 'In a parking lot in Ridgefield, Connecticut, Jim encounters the love of his life for the first time. Marisa is locked out of her car, and Jim helps her break into it using a wire hanger.',
+        side: 'right',
+      },
+      {
+        gap: { right: '10rem' }
+      },
+      {
+        src: '/photos/life_in_pictures/lmg2020, JP with Justin, c. 1994.jpg',
+        w: 3637, h: 2929,
+        year: 'c. 1994',
+        caption: 'With his son Justin.',
+        side: 'right',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg2021, Jim and Justin sucking thumbs at Compo Beach, 1995.jpg',
+        w: 2248, h: 2968,
+        year: '1995',
+        caption: 'With Justin at Compo Beach.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg3840, JP with Kristin, 9-27-1995.jpg',
+        w: 2841, h: 2342,
+        year: 'September 1995',
+        caption: 'With newborn daughter Kristin.',
+        side: 'right',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg3860, Justin and Kristin, 1995.jpg',
+        w: 2456, h: 3882,
+        year: '1995',
+        caption: 'Justin and Kristin.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg3920, JP with Justin & Kristin by garage door.jpg',
+        w: 1626, h: 3560,
+        year: 'Mid-1990s',
+        caption: 'With Justin and Kristin by the garage door.',
+        side: 'left',
+      },
+      {
+        gap: { left: '5rem', right: '10rem' }
+      },
+      {
+        src: '/covers/unredacted/triumph-of-liberty.jpg',
+        w: 313, h: 475,
+        year: '2000',
+        caption: 'Jim publishes his first book focusing on political history.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/lmg1200, JP by Bachrach, c. 2000.jpg',
+        w: 891, h: 1257,
+        year: 'c. 2000',
+        caption: 'Jim maintains his writing career alongside his new role as a father. Ever the photography connoisseur, Jim commissions the storied photography studio Bachrach to take a professional author portrait for his books.',
+        side: 'right',
+      },
+      {
+        src: '/covers/unredacted/fdrs-folly.jpg',
+        w: 324, h: 475,
+        year: '2003',
+        caption: 'Jim publishes the book that will become one of his most popular.',
+        side: 'right',
+      },
+      {
+        gap: { left: '25rem', right: '15rem' }
+      },
+      {
+        src: '/photos/life_in_pictures/lmg1880, JP & Marisa wedding day, 2006.jpg',
+        w: 2000, h: 1611,
+        year: '2006',
+        caption: 'After more than a decade together, Jim and Marisa decide to make it official and get married.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/JP & Kristin w ring B&W.jpg',
+        w: 322, h: 400,
+        year: '',
+        caption: 'With Kristin, ringbearer.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/Justin & JP with ring B&W.jpg',
+        w: 321, h: 401,
+        year: '',
+        caption: 'With Justin.',
+        side: 'right',
+      },
+      {
+        gap: { left: '5rem', right: '20rem' }
+      },
+      {
+        src: '/photos/life_in_pictures/kristin_graduation.jpg',
+        w: 5184, h: 3456,
+        year: '2017',
+        caption: 'Proud father back at his own alma mater for Kristin\'s college graduation.',
+        side: 'left',
+      },
+      {
+        src: '/photos/life_in_pictures/MVIMG_20190602_101652.jpg',
+        w: 4032, h: 3024,
+        year: '2019',
+        caption: 'Still a ham.',
+        side: 'right',
+      },
+      {
+        gap: { left: '5rem', right: '15rem' }
+      },
+      {
+        src: '/photos/home.jpg',
+        w: 4032, h: 3024,
+        year: '2025',
+        caption: 'Jim dies peacefully at home with Marisa nearby.',
+        side: 'right',
+      },
+    ];
+
+    // ── Render stations ──────────────────────────────────────────────
+    // DOM structure:
+    //   timeline (grid on desktop, flex column on mobile)
+    //     ├── .lane.left-lane    (flex column of left photos)
+    //     └── .lane.right-lane   (flex column of right photos)
+    //
+    // Each station is appended to the lane that matches its side and given
+    // an `order` matching its chronological index in STATIONS. On mobile,
+    // both lanes collapse to `display: contents`, so stations become direct
+    // flex children of the timeline and `order` re-interleaves them in
+    // chronological order.
+    const timeline = document.getElementById('timeline');
+    const leftLane = document.createElement('div');
+    leftLane.className = 'lane left-lane';
+    const rightLane = document.createElement('div');
+    rightLane.className = 'lane right-lane';
+
+    STATIONS.forEach((station, i) => {
+      // Gap entry. Two forms:
+      //   { gap: '4rem' }
+      //     A chronological gap. Pushes both lanes down by the same amount,
+      //     and the gap is preserved on mobile (where everything collapses
+      //     to a single column).
+      //   { gap: { left: '4rem', right: '2rem' } }
+      //     Per-lane layout adjustment. Either side can be omitted to push
+      //     only the other side down. Treated as a desktop-only tweak —
+      //     hidden in the mobile single-column flow.
+      if (station.gap) {
+        let leftValue, rightValue, mobileVisible;
+        if (typeof station.gap === 'string') {
+          leftValue = rightValue = station.gap;
+          mobileVisible = true;
+        } else {
+          leftValue = station.gap.left || null;
+          rightValue = station.gap.right || null;
+          mobileVisible = false;
+        }
+
+        if (leftValue) {
+          const leftGap = document.createElement('div');
+          leftGap.className = 'gap';
+          if (!mobileVisible) leftGap.classList.add('gap--mobile-hide');
+          leftGap.style.height = leftValue;
+          leftGap.style.order = i;
+          leftLane.appendChild(leftGap);
+        }
+
+        if (rightValue) {
+          const rightGap = document.createElement('div');
+          rightGap.className = 'gap gap--mobile-hide';
+          rightGap.style.height = rightValue;
+          rightGap.style.order = i;
+          rightLane.appendChild(rightGap);
+        }
+        return;
+      }
+
+      const article = document.createElement('article');
+      article.className = 'station';
+      article.dataset.side = station.side;
+      article.style.order = i;
+
+      if (station.year) {
+        const year = document.createElement('p');
+        year.className = 'year';
+        year.textContent = station.year;
+        article.appendChild(year);
+      }
+
+      const wrap = document.createElement('div');
+      wrap.className = 'photo-wrap';
+
+      const img = document.createElement('img');
+      img.className = 'photo';
+      img.src = station.src;
+      img.width = station.w;
+      img.height = station.h;
+      img.alt = station.caption || `Jim Powell, ${station.year || ''}`.trim();
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      wrap.appendChild(dot);
+
+      article.appendChild(wrap);
+
+      if (station.caption) {
+        const cap = document.createElement('p');
+        cap.className = 'caption';
+        cap.textContent = station.caption;
+        article.appendChild(cap);
+      }
+
+      (station.side === 'left' ? leftLane : rightLane).appendChild(article);
+    });
+
+    timeline.appendChild(leftLane);
+    timeline.appendChild(rightLane);
+
+    // ── Snug the central line to the first and last ticks ───────────
+    // Measure the topmost and bottommost dot positions and set CSS
+    // variables for the line's top/bottom. Because images carry width
+    // and height attributes, layout is correct even before they load,
+    // so this runs synchronously and the browser's first paint already
+    // shows the trimmed line — no flash or jump.
+    function updateLineBounds() {
+      const dots = timeline.querySelectorAll('.dot');
+      if (dots.length === 0) return;
+      const tlRect = timeline.getBoundingClientRect();
+      let minY = Infinity, maxY = -Infinity;
+      dots.forEach(dot => {
+        const r = dot.getBoundingClientRect();
+        const cy = r.top + r.height / 2 - tlRect.top;
+        if (cy < minY) minY = cy;
+        if (cy > maxY) maxY = cy;
+      });
+      timeline.style.setProperty('--line-top', minY + 'px');
+      timeline.style.setProperty('--line-bottom', (tlRect.height - maxY) + 'px');
+    }
+    updateLineBounds();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateLineBounds, 100);
+    });
+  </script>
+
+</body>
+</html>
