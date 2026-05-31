@@ -245,64 +245,26 @@
       font-size: 0.95rem;
     }
 
-    /* ── RSVP ── */
-    .rsvp {
+    /* ── Join Us ── */
+    .join-us {
       background: white;
       border-top: 1px solid var(--border);
-    }
-
-    .rsvp h2 {
       text-align: center;
     }
 
-    .rsvp p.intro {
-      text-align: center;
+    .join-us p.intro {
       margin-bottom: 2rem;
     }
 
-    form {
+    .join-us .paths {
       display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    label {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.8rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--text-light);
-    }
-
-    input, textarea, select {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 300;
-      padding: 0.6rem 0;
-      border: none;
-      border-bottom: 1px solid var(--border);
-      border-radius: 0;
-      background: transparent;
-      color: var(--text);
-      transition: border-color 0.3s;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-bottom-color: var(--blue);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-      border: none;
-      border-bottom: 1px solid var(--border);
-    }
-
-    button[type="submit"] {
+    .join-us .paths a {
+      display: inline-block;
       font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       font-weight: 400;
@@ -313,13 +275,22 @@
       color: white;
       border: none;
       border-radius: 4px;
-      cursor: pointer;
+      text-decoration: none;
       transition: background 0.2s;
-      margin-top: 0.5rem;
     }
 
-    button[type="submit"]:hover {
+    .join-us .paths a:hover {
       background: var(--blue-light);
+    }
+
+    .join-us .paths a.secondary {
+      background: white;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+
+    .join-us .paths a.secondary:hover {
+      background: var(--blue-soft);
     }
 
     /* ── Footer ── */
@@ -373,42 +344,14 @@
     </div>
   </section>
 
-  <section class="rsvp" id="rsvp">
+  <section class="join-us" id="join-us">
     <div class="container">
       <h2>Join Us</h2>
-      <p class="intro">We would love to have you join us to celebrate Jim&rsquo;s life. Please let us know if you can make it.</p>
-
-      <!-- Replace YOUR_BASIN_ENDPOINT below with your Basin form endpoint -->
-      <form action="https://usebasin.com/f/0b502ffcd60d" method="POST">
-        <label>
-          Your name
-          <input type="text" name="name" required>
-        </label>
-
-        <label>
-          Email
-          <input type="email" name="email" required>
-        </label>
-
-        <label>
-          Number of guests
-          <select name="guests" required>
-            <option value="" disabled selected>Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5+</option>
-          </select>
-        </label>
-
-        <label>
-          Note <span style="text-transform: none; letter-spacing: normal; font-weight: 300;">(optional)</span>
-          <textarea name="note" placeholder="Share a memory or a message with Marisa, Justin, and Kristin"></textarea>
-        </label>
-
-        <button type="submit">Send RSVP</button>
-      </form>
+      <p class="intro">Whether you can be with us in person or not, we&rsquo;d love to hear from you.</p>
+      <div class="paths">
+        <a href="/rsvp/">RSVP to the Service &rsaquo;</a>
+        <a class="secondary" href="/share-a-memory/">Share a Memory &rsaquo;</a>
+      </div>
     </div>
   </section>
 

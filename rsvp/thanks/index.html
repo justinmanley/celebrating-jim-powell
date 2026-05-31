@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You &middot; Celebrating Jim Powell</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #1a3a7a;
+      --blue-light: #2b4fa3;
+      --blue-soft: #e8edf7;
+      --blue-muted: #6b82b8;
+      --cream: #faf9f7;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --border: #d8d4ce;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .prelude {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: var(--blue);
+      line-height: 1.15;
+    }
+
+    .thanks {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .thanks p {
+      margin-bottom: 1.25rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    .thanks h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 1.4rem;
+      color: var(--blue);
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    .next-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      align-items: center;
+    }
+
+    .next-links a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-size: 0.95rem;
+    }
+
+    .next-links a:hover { color: var(--blue-light); }
+
+    .home-button {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: var(--blue);
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-top: 2rem;
+    }
+
+    .home-button:hover { background: var(--blue-light); }
+
+    .site-footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--blue);
+    }
+
+    .site-footer p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <p class="prelude">Celebrating Jim Powell</p>
+    <h1>Thank You</h1>
+  </header>
+
+  <div class="thanks">
+    <p>Fabulous! We're thrilled you can join us to celebrate Jim's life.</p>
+    <p>We&rsquo;ll send along the address for the reception as the date gets closer.</p>
+
+    <h2>While you&rsquo;re here</h2>
+    <div class="next-links">
+      <a href="/biography/">Read Jim&rsquo;s biography</a>
+      <a href="/life-in-pictures/">A life in pictures</a>
+      <a href="/photography/">Jim&rsquo;s photography</a>
+      <a href="/quiz/">Take the book-cover quiz</a>
+    </div>
+
+    <a class="home-button" href="/">Back to home</a>
+  </div>
+
+  <footer class="site-footer">
+    <p>With love, Marisa, Justin, and Kristin</p>
+  </footer>
+
+</body>
+</html>

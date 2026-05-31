@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP &middot; Celebrating Jim Powell</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #1a3a7a;
+      --blue-light: #2b4fa3;
+      --blue-soft: #e8edf7;
+      --blue-muted: #6b82b8;
+      --cream: #faf9f7;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --border: #d8d4ce;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      background: white;
+      border-top: 3px solid var(--blue);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .prelude {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-muted);
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      color: var(--blue);
+      line-height: 1.15;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--blue);
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      background: white;
+    }
+
+    .back-link:hover { color: var(--blue-light); }
+
+    .form-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    .form-wrap p.intro {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    label .optional {
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 300;
+    }
+
+    input, textarea, select {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      padding: 0.6rem 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      transition: border-color 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-bottom-color: var(--blue);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button[type="submit"] {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    button[type="submit"]:hover { background: var(--blue-light); }
+
+    .switch-path {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .switch-path a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .switch-path a:hover { color: var(--blue-light); }
+
+    .site-footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: var(--blue);
+    }
+
+    .site-footer p {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <p class="prelude">Celebrating Jim Powell</p>
+    <h1>RSVP</h1>
+  </header>
+
+  <a class="back-link" href="/">&lsaquo; Back to home</a>
+
+  <div class="form-wrap">
+    <p class="intro">We would love to have you join us in Westport on June 7. Please let us know if you can make it.</p>
+
+    <form action="https://usebasin.com/f/0b502ffcd60d" method="POST">
+      <input type="hidden" name="form_type" value="rsvp">
+      <input type="hidden" name="_redirect" value="https://celebratingjimpowell.com/rsvp/thanks/">
+
+      <label>
+        Your name
+        <input type="text" name="name" required>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" required>
+      </label>
+
+      <label>
+        Number of guests
+        <select name="guests" required>
+          <option value="" disabled selected>Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5+</option>
+        </select>
+      </label>
+
+      <label>
+        Note <span class="optional">(optional)</span>
+        <textarea name="note" placeholder="Share a memory or a message with Marisa, Justin, and Kristin"></textarea>
+      </label>
+
+      <button type="submit">Send RSVP</button>
+    </form>
+
+    <p class="switch-path">Can&rsquo;t make it? <a href="/share-a-memory/">Share a memory instead &rsaquo;</a></p>
+  </div>
+
+  <footer class="site-footer">
+    <p>With love, Marisa, Justin, and Kristin</p>
+  </footer>
+
+</body>
+</html>
